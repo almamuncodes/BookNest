@@ -1,7 +1,8 @@
 'use client'
 import React, { useEffect, useMemo, useState } from "react";
-import { Book } from "../types/book";
+
 import BookCard from "@/Components/BookCard";
+import { Book } from "@/types/book";
 
 const CATEGORIES = [
   "All",
@@ -180,7 +181,7 @@ const HomePage: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredBooks.map((b) => (
-              <BookCard key={b._id} book={b} onOpen={(book) => setActive(book)} />
+              <BookCard key={b._id} book={b} />
             ))}
           </div>
         )}

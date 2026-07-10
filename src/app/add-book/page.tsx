@@ -47,16 +47,16 @@ export default function AddBookPage() {
   const router = useRouter();
 
   // ---- Auth guard (next-auth) ----
-  const { data: session, status: authStatus } = useSession();
+  const { data: session, isPending } = useSession();
   const userEmail = session?.user?.email ?? null;
 
   useEffect(() => {
-    if (authStatus === "unauthenticated") {
+    if (!isPending && !session) {
       router.replace("/signin");
     }
-  }, [authStatus, router]);
+  }, [isPending, router, session]);
 
-  const checkingAuth = authStatus === "loading" || authStatus === "unauthenticated";
+  const checkingAuth = isPending || !session;
 
   // ---- Form state ----
   const [form, setForm] = useState<BookFormData>(EMPTY_FORM);
