@@ -75,14 +75,19 @@ const COLORS = {
 
 /* A "call number" eyebrow — riffs on library card-catalog tags instead of
    generic 01/02/03 numbering. */
-function CallNumber({ code, label }) {
+interface CallNumberProps {
+  code: string;
+  label: string;
+}
+
+function CallNumber({ code, label }: CallNumberProps) {
   return (
     <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#DCD4C2] bg-white/70 px-3 py-1">
-      <span className="font-[family-name:var(--font-mono)] text-[11px] tracking-wide text-[#2F6D4F]">
+      <span className="font-mono text-[11px] tracking-wide text-[#2F6D4F]">
         {code}
       </span>
       <span className="h-3 w-px bg-[#DCD4C2]" />
-      <span className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.14em] text-[#4B5850]">
+      <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#4B5850]">
         {label}
       </span>
     </div>
@@ -202,8 +207,18 @@ function useInView(threshold = 0.2) {
 /*  Per-genre cover illustrations — hand-drawn line motifs, no stock art, */
 /*  so every "cover" is bespoke to its genre rather than a stock photo.   */
 /* ---------------------------------------------------------------------- */
-function CoverMotif({ genre }) {
-  const common = { fill: "none", stroke: "rgba(255,255,255,0.55)", strokeWidth: 1.4, strokeLinecap: "round", strokeLinejoin: "round" };
+interface CoverMotifProps {
+  genre: string;
+}
+
+function CoverMotif({ genre }: CoverMotifProps) {
+  const common = {
+    fill: "none",
+    stroke: "rgba(255,255,255,0.55)",
+    strokeWidth: 1.4,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+  } as const;
 
   switch (genre) {
     case "Fantasy":
@@ -290,17 +305,17 @@ function CoverMotif({ genre }) {
 const GRAIN_BG =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E\")";
 
-function BookCover({ title, color, genre }) {
+function BookCover({ title, color, genre }: { title: string; color: string; genre: string }) {
   const initials = title
     .split(" ")
-    .filter((w) => w.length > 2 || /^[A-Z]/.test(w))
+    .filter((w: string) => w.length > 2 || /^[A-Z]/.test(w))
     .slice(0, 2)
-    .map((w) => w[0])
+    .map((w: string) => w[0])
     .join("");
 
   return (
     <div
-      className="relative flex aspect-[2/3] w-full flex-col justify-between overflow-hidden rounded-md p-4 shadow-[0_10px_24px_-12px_rgba(27,36,32,0.45)] transition-transform duration-300 ease-out group-hover:-translate-y-2 group-hover:rotate-[-1deg] group-hover:shadow-[0_18px_32px_-14px_rgba(27,36,32,0.55)]"
+      className="relative flex aspect-2/3 w-full flex-col justify-between overflow-hidden rounded-md p-4 shadow-[0_10px_24px_-12px_rgba(27,36,32,0.45)] transition-transform duration-300 ease-out group-hover:-translate-y-2 group-hover:-rotate-1 group-hover:shadow-[0_18px_32px_-14px_rgba(27,36,32,0.55)]"
       style={{ backgroundColor: `#${color}` }}
     >
       {/* genre illustration, tucked behind the type */}
@@ -312,10 +327,10 @@ function BookCover({ title, color, genre }) {
       <div className="pointer-events-none absolute inset-0 mix-blend-overlay opacity-40" style={{ backgroundImage: GRAIN_BG }} />
 
       {/* hover shine sweep */}
-      <div className="pointer-events-none absolute inset-0 -translate-x-[160%] skew-x-[-18deg] bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[160%]" />
+      <div className="pointer-events-none absolute inset-0 translate-x-[-160%] skew-x-[-18deg] bg-linear-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[160%]" />
 
       <div className="relative h-px w-8 bg-white/40" />
-      <span className="relative font-[family-name:var(--font-display)] text-3xl italic text-white/90 [text-shadow:0_2px_6px_rgba(0,0,0,0.25)]">
+      <span className="relative font-(family-name:--font-display) text-3xl italic text-white/90 [text-shadow:0_2px_6px_rgba(0,0,0,0.25)]">
         {initials}
       </span>
       <div className="relative h-px w-full bg-white/25" />
@@ -323,11 +338,11 @@ function BookCover({ title, color, genre }) {
   );
 }
 
-function StarRow({ rating }) {
+function StarRow({ rating }: { rating: number }) {
   return (
     <div className="flex items-center gap-1">
       <Star size={14} className="fill-[#C89B3C] text-[#C89B3C]" />
-      <span className="font-[family-name:var(--font-mono)] text-xs text-[#4B5850]">
+      <span className="font-mono text-xs text-[#4B5850]">
         {rating.toFixed(1)}
       </span>
     </div>
@@ -336,23 +351,23 @@ function StarRow({ rating }) {
 
 /* A single Featured Book tile — owns its own scroll-reveal so the row      */
 /* comes in as a staggered wave rather than all at once.                   */
-function FeaturedBookCard({ book, index }) {
+function FeaturedBookCard({ book, index }: { book: any; index: number }) {
   const [ref, inView] = useInView(0.15);
   return (
     <div
-      ref={ref}
+      ref={ref as any}
       className={`group cursor-pointer transition-all duration-700 ease-out motion-reduce:transition-none motion-reduce:opacity-100 motion-reduce:translate-y-0 ${
         inView ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
       }`}
       style={{ transitionDelay: `${index * 90}ms` }}
     >
       <BookCover title={book.title} color={book.color} genre={book.genre} />
-      <p className="mt-3 font-[family-name:var(--font-display)] text-sm font-medium leading-snug transition-colors duration-200 group-hover:text-[#2F6D4F]">
+      <p className="mt-3 font-(family-name:--font-display) text-sm font-medium leading-snug transition-colors duration-200 group-hover:text-[#2F6D4F]">
         {book.title}
       </p>
       <p className="text-xs text-[#4B5850]">{book.author}</p>
       <div className="mt-1 flex items-center justify-between">
-        <span className="font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-wide text-[#4B5850]">
+        <span className="font-mono text-[10px] uppercase tracking-wide text-[#4B5850]">
           {book.genre}
         </span>
         <StarRow rating={book.rating} />
@@ -365,7 +380,7 @@ function FeaturedBookCard({ book, index }) {
 /*  Page                                                                  */
 /* ---------------------------------------------------------------------- */
 export default function HomePage() {
-  const [openFaq, setOpenFaq] = useState(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   return (
     <div
