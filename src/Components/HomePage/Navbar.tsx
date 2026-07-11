@@ -63,6 +63,7 @@ export default function Navbar() {
             <>
               <Link href="/add-book" className="text-gray-600 hover:text-[#2F6D4F]">Add Book</Link>
               <Link href="/manage-books" className="text-gray-600 hover:text-[#2F6D4F]">Manage Books</Link>
+              <Link href="/bookmarks" className="text-gray-600 hover:text-[#2F6D4F]">Bookmarks</Link>
               <button onClick={handleLogout} className="rounded-full border bg-orange-400 border-gray-200 px-4 py-1.5 font-semibold text-gray-900 hover:bg-orange-500">
                 Logout
               </button>
@@ -101,6 +102,7 @@ export default function Navbar() {
             <>
               <Link href="/add-book" onClick={() => setMenuOpen(false)} className="text-gray-600">Add Book</Link>
               <Link href="/manage-books" onClick={() => setMenuOpen(false)} className="text-gray-600">Manage Books</Link>
+              <Link href="/bookmarks" className="text-gray-600 hover:text-[#2F6D4F]">Bookmarks</Link>
               <button
                 onClick={() => { setMenuOpen(false); handleLogout(); }}
                 className="text-left font-semibold text-[#2F6D4F]"
