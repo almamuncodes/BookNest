@@ -28,7 +28,7 @@ const HomePage: React.FC = () => {
     const fetchBooks = async () => {
       try {
         setLoading(true);
-        const res = await fetch("http://localhost:5000/api/items");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/items`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         setBooks(Array.isArray(data) ? data : []);

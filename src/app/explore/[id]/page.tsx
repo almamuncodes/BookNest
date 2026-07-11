@@ -20,6 +20,11 @@ const BookDetailPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkLoading, setBookmarkLoading] = useState(false);
+  
+  if(!userId) {
+    console.log(user)
+    router.push("/signin");
+  }
 
   useEffect(() => {
     if (!id) return;
@@ -28,14 +33,14 @@ const BookDetailPage = () => {
       setLoading(true);
       try {
         // ১. বইয়ের ডিটেইলস আনা
-        const bookRes = await fetch(`http://localhost:5000/api/items/${id}`);
+        const bookRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/items/${id}`);
         if (!bookRes.ok) throw new Error("Failed to fetch book");
         const bookData = await bookRes.json();
         setBook(bookData);
 
         // ২. ইউজারের বুকমার্ক লিস্ট চেক করা (userId থাকলেই)
         if (userId) {
-          const bookmarkRes = await fetch(`http://localhost:5000/api/bookmarks/${userId}`);
+          const bookmarkRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/bookmarks/${userId}`);
           const bookmarks = await bookmarkRes.json();
 
           const isExists = bookmarks.some((item: any) => item.bookId === id);
@@ -55,7 +60,7 @@ const BookDetailPage = () => {
   const handleBookmarkToggle = async () => {
     setBookmarkLoading(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/bookmarks`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/bookmarks`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, bookId: id }),
