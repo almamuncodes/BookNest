@@ -3,9 +3,9 @@ import Link from "next/link";
 // ------------------- LINK GROUPS (all routes must actually exist in the app) -------------------
 const EXPLORE_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/items", label: "Browse Books" },
+  { href: "/explore", label: "Browse Books" },
   { href: "/bookmarks", label: "Bookmarks" },
-  { href: "/items/add", label: "Add Book" },
+  { href: "/add-book", label: "Add Book" },
 ];
 
 const COMPANY_LINKS = [
@@ -49,8 +49,8 @@ export default function Footer() {
 
           {/* Contact info */}
           <div className="mt-5 space-y-1.5 text-sm text-neutral-400">
-            <p>📧 hello@booknest.com</p>
-            <p>📞 +880 1XXX-XXXXXX</p>
+            <p>📧 almamun2026islam@gmail.com</p>
+            <p>📞 +880 1994810914</p>
             <p>📍 Mymensingh, Bangladesh</p>
           </div>
         </div>
